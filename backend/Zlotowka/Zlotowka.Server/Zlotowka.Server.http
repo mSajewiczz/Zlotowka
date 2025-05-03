@@ -1,0 +1,6 @@
+@Zlotowka.Server_HostAddress = http://localhost:5151
+
+GET {{Zlotowka.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
