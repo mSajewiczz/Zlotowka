@@ -24,7 +24,7 @@ function RouteComponent() {
 					</label>
 					<button className="bg-amber-300 cursor-pointer">Log in</button>
 					<Link to="/">
-						<button className="cursor-pointer bg-amber-300" onClick={close}>
+						<button className="w-full cursor-pointer bg-amber-300" onClick={close}>
 							Go back
 						</button>
 					</Link>
