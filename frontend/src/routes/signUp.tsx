@@ -1,14 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/signUp")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-
-  
   const [errorMessage, setErrorMessage] = useState("");
   const [userData, setUserData] = useState({userName: "", userPassword: "", userRepeatPassword: ""});
 

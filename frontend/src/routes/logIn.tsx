@@ -11,10 +11,8 @@ function RouteComponent() {
 
   const [userData, setUserData] = useState({userName: "", userPassword: ""});
 
-  
-
 	return createPortal(
-		<div className="absolute bg-red-500 w-screen h-screen z-10 top-0 flex flex-col justify-center items-center">
+		<div className="absolute bg-gray-300 w-screen h-screen z-10 top-0 flex flex-col justify-center items-center">
 			<div className="flex flex-col bg-white p-10 gap-5 items-center">
 				<h2 className="text-3xl">Log in</h2>
 
