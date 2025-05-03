@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-
+import {useState} from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 
@@ -8,6 +8,10 @@ export const Route = createFileRoute("/logIn")({
 });
 
 function RouteComponent() {
+
+  const [userData, setUserData] = useState({userName: "", userPassword: ""});
+
+
 	return createPortal(
 		<div className="absolute bg-red-500 w-screen h-screen z-10 top-0 flex flex-col justify-center items-center">
 			<div className="flex flex-col bg-white p-10 gap-5 items-center">
@@ -16,11 +20,15 @@ function RouteComponent() {
 				<form action="" className="flex flex-col gap-1">
 					<label htmlFor="" className="flex flex-col gap-2">
 						<p>Your username</p>
-						<input type="text" placeholder="Username" />
+						<input type="text" placeholder="Username" value={userData.userName} onChange={(e) => {
+              setUserData({...userData, userName: e.target.value}), console.log(userData.userName)
+            }}/>
 					</label>
 					<label htmlFor="" className="flex flex-col gap-1">
 						<p>Your password</p>
-						<input type="password" placeholder="Password" />
+						<input type="password" placeholder="Password" value={userData.userPassword} onChange={(e) => {
+              setUserData({...userData, userPassword: e.target.value}), console.log(userData.userPassword)
+            }}/>
 					</label>
 					<button className="bg-amber-300 cursor-pointer">Log in</button>
 					<Link to="/">
