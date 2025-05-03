@@ -1,5 +1,6 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import NavButtons from "../components/NavButtons/NavButtons";
 
 export const Route = createRootRoute({
 	component: () => (
@@ -15,10 +16,8 @@ export const Route = createRootRoute({
 					</Link>
 				</div>
 
-				<div className="p-2 flex gap-2">
-					<button className="cursor-pointer bg-amber-300 px-4 py-1">Log in</button>
-					<button className="cursor-pointer bg-amber-300 px-4 py-1">Sign up</button>
-				</div>
+        <NavButtons/>
+				
 			</div>
 
 			<hr />
