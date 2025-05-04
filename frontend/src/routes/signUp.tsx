@@ -7,8 +7,12 @@ export const Route = createFileRoute("/signUp")({
 });
 
 function RouteComponent() {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [userData, setUserData] = useState({userName: "", userPassword: "", userRepeatPassword: ""});
+	const [errorMessage, setErrorMessage] = useState("");
+	const [userData, setUserData] = useState({
+		userName: "",
+		userPassword: "",
+		userRepeatPassword: "",
+	});
 
 	return createPortal(
 		<div className="absolute bg-gray-300 w-screen h-screen z-10 top-0 flex flex-col justify-center items-center">
@@ -18,51 +22,79 @@ function RouteComponent() {
 				<form action="" className="flex flex-col gap-1">
 					<label htmlFor="" className="flex flex-col gap-2">
 						<p>Your username</p>
-						<input className="border"  type="text" placeholder="Username" value = {userData.userName} onChange={(e) => {
-              setUserData({...userData, userName: e.target.value});
-            }}/>
+						<input
+							className="border"
+							type="text"
+							placeholder="Username"
+							value={userData.userName}
+							onChange={e => {
+								setUserData({ ...userData, userName: e.target.value });
+							}}
+						/>
 					</label>
 
 					<label htmlFor="" className="flex flex-col gap-1">
 						<p>Your password</p>
-						<input className="border" type="password" placeholder="Password" value = {userData.userPassword} onChange={(e) => {
-              setUserData({...userData, userPassword: e.target.value});
-            }}/>
+						<input
+							className="border"
+							type="password"
+							placeholder="Password"
+							value={userData.userPassword}
+							onChange={e => {
+								setUserData({ ...userData, userPassword: e.target.value });
+							}}
+						/>
 					</label>
 
-          <label htmlFor="" className="flex flex-col gap-1">
+					<label htmlFor="" className="flex flex-col gap-1">
 						<p>Repeat password</p>
-						<input className="border" type="password" placeholder="Password" value = {userData.userRepeatPassword} onChange={(e) => {
-              setUserData({...userData, userRepeatPassword: e.target.value});
-            }}/>
+						<input
+							className="border"
+							type="password"
+							placeholder="Password"
+							value={userData.userRepeatPassword}
+							onChange={e => {
+								setUserData({
+									...userData,
+									userRepeatPassword: e.target.value,
+								});
+							}}
+						/>
 					</label>
 
-					<button className="bg-amber-300 cursor-pointer" onClick={(e) => {
-            e.preventDefault();
-            // console.log("userName: " + userData.userName);
-            // console.log("password: " + userData.userPassword);
-            // console.log("repeat password: " + userData.userRepeatPassword);
+					<button
+						className="bg-amber-300 cursor-pointer"
+						onClick={async e => {
+							e.preventDefault();
+							// console.log("userName: " + userData.userName);
+							// console.log("password: " + userData.userPassword);
+							// console.log("repeat password: " + userData.userRepeatPassword);
 
-            if(userData.userPassword !== userData.userRepeatPassword) {
-              setErrorMessage("Passwords aren't the same!");
-            } else {
-              setErrorMessage("");
-            }
+							await fetch("http://localhost:5151/", { method: "POST" });
 
-          }}>Sign up</button>
+							if (userData.userPassword !== userData.userRepeatPassword) {
+								setErrorMessage("Passwords aren't the same!");
+							} else {
+								setErrorMessage("");
+							}
+						}}>
+						Sign up
+					</button>
 					<Link to="/">
-						<button className="w-full cursor-pointer bg-amber-300" onClick={close}>
+						<button
+							className="w-full cursor-pointer bg-amber-300"
+							onClick={close}>
 							Go back
 						</button>
 					</Link>
 
 					<Link to="/logIn">
 						<button className="text-sm text-blue-400 cursor-pointer">
-							Have you already account? Log in here! 
+							Have you already account? Log in here!
 						</button>
 					</Link>
 
-          <p className="text-red-700">{errorMessage}</p>
+					<p className="text-red-700">{errorMessage}</p>
 				</form>
 			</div>
 		</div>,
