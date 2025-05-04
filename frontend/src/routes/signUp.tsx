@@ -66,9 +66,12 @@ function RouteComponent() {
 						className="bg-amber-300 cursor-pointer"
 						onClick={async e => {
 							e.preventDefault();
-							// console.log("userName: " + userData.userName);
-							// console.log("password: " + userData.userPassword);
-							// console.log("repeat password: " + userData.userRepeatPassword);
+
+							if (userData.userPassword !== userData.userRepeatPassword) {
+								setErrorMessage("Passwords aren't the same!");
+							} else {
+								setErrorMessage("");
+							}
 
 							const response = await fetch(
 								"http://localhost:5151/api/auth/register",
@@ -84,16 +87,16 @@ function RouteComponent() {
 								}
 							);
 
-							if (userData.userPassword !== userData.userRepeatPassword) {
-								setErrorMessage("Passwords aren't the same!");
-							} else {
-								setErrorMessage("");
-							}
-
 							if (response.ok) {
-								console.log("ok");
+								setErrorMessage("You're succesfully signed up!");
+								setUserData({...userData, userName: "", userPassword: "", userRepeatPassword: ""});
+							} else if(response.statusText == "Bad Request") {
+								setErrorMessage("User with this user name already exists.");
+								setUserData({...userData, userName: ""});
+								console.log(response.statusText);
 							} else {
-								console.log("sth went wrong");
+								setErrorMessage("Something went wrong, try again later.");
+								setUserData({...userData, userName: "", userPassword: "", userRepeatPassword: ""});
 							}
 						}}>
 						Sign up

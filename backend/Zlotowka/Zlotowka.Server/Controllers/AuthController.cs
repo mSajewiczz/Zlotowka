@@ -4,6 +4,8 @@ using Zlotowka.Server.Data;
 using Zlotowka.Server.Models;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Identity.Data;
+using RegisterRequest = Zlotowka.Server.Models.RegisterRequest;
 
 namespace Zlotowka.Server.Controllers
 {
