@@ -70,7 +70,12 @@ function RouteComponent() {
 							// console.log("password: " + userData.userPassword);
 							// console.log("repeat password: " + userData.userRepeatPassword);
 
-							await fetch("http://localhost:5151/", { method: "POST" });
+							await fetch("http://localhost:5151/api/auth/register", {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								}, body: JSON.stringify({UserName: userData.userName, Password: userData.userPassword})
+							});
 
 							if (userData.userPassword !== userData.userRepeatPassword) {
 								setErrorMessage("Passwords aren't the same!");
