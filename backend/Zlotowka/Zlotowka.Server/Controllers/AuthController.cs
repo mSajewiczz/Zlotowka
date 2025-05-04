@@ -9,6 +9,9 @@ using RegisterRequest = Zlotowka.Server.Models.RegisterRequest;
 
 namespace Zlotowka.Server.Controllers
 {
+    
+    
+    
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
@@ -41,6 +44,23 @@ namespace Zlotowka.Server.Controllers
             await _context.SaveChangesAsync();
 
             return Ok("You are successfully registered.");
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var user_exists = await _context.Users.AnyAsync(u => u.UserName == request.Email);
+            var passsword_exists = await _context.Users.AnyAsync(u => u.PasswordHash == request.Password);
+
+            if (!user_exists)
+            {
+                return BadRequest("User with this user name does not exist.");
+            } else if (user_exists && !passsword_exists)
+            {
+                return BadRequest("Wrong password.");
+            }
+            
+            return Ok("You're successfully logged in.");
         }
 
         private string HashPassword(string password)
