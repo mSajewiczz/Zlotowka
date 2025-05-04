@@ -55,19 +55,15 @@ function RouteComponent() {
 									method: "POST",
 									headers: {
 										"Content-Type": "application/json",
-									}, 
+									},
 									body: JSON.stringify({
 										UserName: userData.userName,
 										Password: userData.userPassword,
-									})
+									}),
 								}
 							);
 
 							console.log(response);
-							
-
-
-
 						}}>
 						Log in
 					</button>

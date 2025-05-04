@@ -4,19 +4,19 @@ using Zlotowka.Server.Data;
 using Zlotowka.Server.Models;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using RegisterRequest = Zlotowka.Server.Models.RegisterRequest;
+using LoginRequest = Zlotowka.Server.Models.LoginRequest;
 
 namespace Zlotowka.Server.Controllers
 {
-    
-    
-    
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly PasswordHasher<User> _passwordHasher = new();
 
         public AuthController(AppDbContext context)
         {
@@ -32,12 +32,11 @@ namespace Zlotowka.Server.Controllers
                 return BadRequest("User with this user name already exists.");
             }
             
-            var passwordHash = HashPassword(request.Password);
 
             var user = new User
             {
                 UserName = request.UserName,
-                PasswordHash = passwordHash
+                PasswordHash = _passwordHasher.HashPassword(null, request.Password)
             };
 
             _context.Users.Add(user);
@@ -49,26 +48,13 @@ namespace Zlotowka.Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var user_exists = await _context.Users.AnyAsync(u => u.UserName == request.Email);
-            var passsword_exists = await _context.Users.AnyAsync(u => u.PasswordHash == request.Password);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == request.UserName);
+            if (user == null) return BadRequest("Invalid credentials 1");
 
-            if (!user_exists)
-            {
-                return BadRequest("User with this user name does not exist.");
-            } else if (user_exists && !passsword_exists)
-            {
-                return BadRequest("Wrong password.");
-            }
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+            if (result == PasswordVerificationResult.Failed) return BadRequest("Invalid credentials 2"); //<----- here is problem!!!
             
             return Ok("You're successfully logged in.");
-        }
-
-        private string HashPassword(string password)
-        {
-            using var sha = SHA256.Create();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
         }
     }
 }
