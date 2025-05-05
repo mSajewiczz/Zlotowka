@@ -24,8 +24,7 @@ function RouteComponent() {
 							placeholder="Username"
 							value={userData.userName}
 							onChange={e => {
-								setUserData({ ...userData, userName: e.target.value }),
-									console.log(userData.userName);
+								setUserData({ ...userData, userName: e.target.value })
 							}}
 						/>
 					</label>
@@ -37,8 +36,7 @@ function RouteComponent() {
 							placeholder="Password"
 							value={userData.userPassword}
 							onChange={e => {
-								setUserData({ ...userData, userPassword: e.target.value }),
-									console.log(userData.userPassword);
+								setUserData({ ...userData, userPassword: e.target.value })
 							}}
 						/>
 					</label>
