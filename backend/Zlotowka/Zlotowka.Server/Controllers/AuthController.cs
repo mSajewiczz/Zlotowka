@@ -45,19 +45,14 @@ namespace Zlotowka.Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Register([FromBody] LoginRequest request)
         {
-            var user = new User
-            {
-                UserName = request.UserName,
-                PasswordHash = _passwordHasher.HashPassword(null, request.Password)
-            };
-            
-            var userExists = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.UserName);
-            if (userExists == null)
-                return BadRequest("Invalid credentials - user name does not exist.");
+            var user = await _context.Users.FirstOrDefaultAsync(dbUser => dbUser.UserName == request.UserName);
+            if (user == null)
+                return BadRequest("Invalid data.");
 
-            var resultExists = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
-            if (resultExists == PasswordVerificationResult.Failed)
-                return BadRequest("Invalid credentials - password doesn't match."); 
+            //pull out from db data about users password
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+            if (result == PasswordVerificationResult.Failed)
+                return BadRequest("Invalid data."); 
 
             return Ok("Logged in successful");
         }
