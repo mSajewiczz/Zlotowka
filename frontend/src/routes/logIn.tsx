@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 
@@ -8,7 +8,15 @@ export const Route = createFileRoute("/logIn")({
 });
 
 function RouteComponent() {
+	const inputRef = useRef(null);
 	const [userData, setUserData] = useState({ userName: "", userPassword: "" });
+	const [message, setMessage] = useState("");
+
+	const focusInput = () => {
+		// inputRef.current.focus();
+		console.log("test");
+		
+	}
 
 	return createPortal(
 		<div className="absolute bg-gray-300 w-screen h-screen z-10 top-0 flex flex-col justify-center items-center">
@@ -31,6 +39,7 @@ function RouteComponent() {
 					<label htmlFor="" className="flex flex-col gap-1">
 						<p>Your password</p>
 						<input
+							ref = {inputRef}
 							className="border"
 							type="password"
 							placeholder="Password"
@@ -56,11 +65,16 @@ function RouteComponent() {
 									},
 									body: JSON.stringify({
 										UserName: userData.userName,
-										Password: userData.userPassword,
+										Password: userData.userPassword
 									}),
 								}
 							);
 
+							if(response.ok) {
+								setMessage("You're succesfully logged in!");
+							} else {
+								setMessage("Invalid user name or password");
+							}
 							console.log(response);
 						}}>
 						Log in
@@ -78,6 +92,7 @@ function RouteComponent() {
 							Haven't yet an account? Sign up for free!
 						</button>
 					</Link>
+					<p>{message}</p>
 				</form>
 			</div>
 		</div>,
