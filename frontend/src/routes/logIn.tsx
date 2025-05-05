@@ -1,7 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useRef, useState, useContext } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
+import Dashboard from "../components/Dashboard/Dashboard";
+import { AuthorizationContext } from "../context/AuthorizationContext";
 
 
 export const Route = createFileRoute("/logIn")({
@@ -12,12 +14,16 @@ function RouteComponent() {
 	const inputRef = useRef(null);
 	const [userData, setUserData] = useState({ userName: "", userPassword: "" });
 	const [message, setMessage] = useState("");
+	const [auth, setAuth] = useState({ passedAuth: false, userName: "" });
+	const authContext = useContext(AuthorizationContext);
+	const navigate = useNavigate();
+
+
 
 	const focusInput = () => {
 		// inputRef.current.focus();
 		console.log("test");
-		
-	}
+	};
 
 	return createPortal(
 		<div className="absolute bg-gray-300 w-screen h-screen z-10 top-0 flex flex-col justify-center items-center">
@@ -33,20 +39,20 @@ function RouteComponent() {
 							placeholder="Username"
 							value={userData.userName}
 							onChange={e => {
-								setUserData({ ...userData, userName: e.target.value })
+								setUserData({ ...userData, userName: e.target.value });
 							}}
 						/>
 					</label>
 					<label htmlFor="" className="flex flex-col gap-1">
 						<p>Your password</p>
 						<input
-							ref = {inputRef}
+							ref={inputRef}
 							className="border"
 							type="password"
 							placeholder="Password"
 							value={userData.userPassword}
 							onChange={e => {
-								setUserData({ ...userData, userPassword: e.target.value })
+								setUserData({ ...userData, userPassword: e.target.value });
 							}}
 						/>
 					</label>
@@ -66,17 +72,22 @@ function RouteComponent() {
 									},
 									body: JSON.stringify({
 										UserName: userData.userName,
-										Password: userData.userPassword
+										Password: userData.userPassword,
 									}),
 								}
 							);
 
-							if(response.ok) {
+							if (response.ok) {
 								setMessage("You're succesfully logged in!");
-
+								setAuth({ passedAuth: true, userName: userData.userName});
 								
+								<AuthorizationContext.Provider
+									value={{passedAuthorisation: auth.passedAuth, userName: auth.userName}}>
 
+										<Dashboard></Dashboard>
 
+										{`${navigate({ to: '/dashboard' })}`};
+								</AuthorizationContext.Provider>;
 							} else {
 								setMessage("Invalid user name or password");
 							}

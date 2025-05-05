@@ -1,3 +1,6 @@
 import { createContext } from 'react';
 
-export  const AuthorizationContext = createContext(false);
+export const AuthorizationContext = createContext({
+    passedAuthorisation: false,
+    userName: ""
+});

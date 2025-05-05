@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useContext } from "react";
-import { AuthorizationContext } from "../context/AuthorizationContext";
+import Dashboard from "../components/Dashboard/Dashboard";
 
 export const Route = createFileRoute("/dashboard")({
 	component: RouteComponent,
@@ -9,9 +8,7 @@ export const Route = createFileRoute("/dashboard")({
 function RouteComponent() {
 	return (
 		<>
-			<AuthorizationContext.Provider value={true}>
-				<div>Welcome userName in dashboard! </div>
-			</AuthorizationContext.Provider>
+			<Dashboard></Dashboard>
 		</>
 	);
 }
