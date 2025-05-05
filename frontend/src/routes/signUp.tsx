@@ -115,7 +115,7 @@ function RouteComponent() {
 						</button>
 					</Link>
 
-					<p className="text-red-700">{errorMessage}</p>
+					<p className="text-red-700">{errorMessage}{errorMessage === "You're succesfully signed up!" && <Link to="/logIn"><p className="text-green-500">Log in here</p></Link>}</p>
 				</form>
 			</div>
 		</div>,

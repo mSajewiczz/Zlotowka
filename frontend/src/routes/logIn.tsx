@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 
+
 export const Route = createFileRoute("/logIn")({
 	component: RouteComponent,
 });
@@ -72,6 +73,10 @@ function RouteComponent() {
 
 							if(response.ok) {
 								setMessage("You're succesfully logged in!");
+
+								
+
+
 							} else {
 								setMessage("Invalid user name or password");
 							}
