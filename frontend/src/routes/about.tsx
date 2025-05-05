@@ -1,10 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useContext, useEffect } from "react";
+import { AuthorizationContext } from "../context/AuthorizationContext";
+
 
 export const Route = createFileRoute("/about")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
+  const [info, setInfo] = useState({path: "/signUp", text: "Sign up for free"});
+  const { passedAuthorisation } = useContext(AuthorizationContext);
+
+ useEffect(() => {
+  if(passedAuthorisation) {
+    setInfo({...info, path: "/dashboard", text: "Go to dashboard and try it yourself!"});
+  }
+ },[passedAuthorisation])
+
 	return (
 		<div className="flex flex-col gap-2 items-start  p-2">
 			<h2 className="text-3xl">
@@ -25,7 +37,7 @@ function RouteComponent() {
       </ol>
 
       <p>Here starts entire adventure with aware management of your finance!</p>
-      <Link className="bg-amber-100 px-2 py-1 " to="/logIn">Sign up for free</Link>
+      <Link className="bg-amber-100 px-2 py-1 " to={info.path}>{info.text}</Link>
 		</div>
 	);
 }
