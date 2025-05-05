@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 import { AuthorizationContext } from "../context/AuthorizationContext";
 
+
 export const Route = createFileRoute("/logIn")({
 	component: RouteComponent,
 });
@@ -73,10 +74,9 @@ function RouteComponent() {
 							);
 
 							if (response.ok) {
-								setMessage("You're succesfully logged in!");
-
-								setAuth({ passedAuthorisation: true, userName: userData.userName });
-
+								setAuth({passedAuthorisation: true, userName: userData.userName});
+								
+								
 								navigateToDashboard();
 							} else {
 								setMessage("Invalid user name or password");
