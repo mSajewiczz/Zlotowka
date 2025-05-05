@@ -75,8 +75,7 @@ function RouteComponent() {
 
 							if (response.ok) {
 								setAuth({passedAuthorisation: true, userName: userData.userName});
-								
-								
+
 								navigateToDashboard();
 							} else {
 								setMessage("Invalid user name or password");

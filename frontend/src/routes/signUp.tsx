@@ -67,36 +67,39 @@ function RouteComponent() {
 						onClick={async e => {
 							e.preventDefault();
 
-							if (userData.userPassword !== userData.userRepeatPassword) {
-								setErrorMessage("Passwords aren't the same!");
-							} else {
-								setErrorMessage("");
+							if(userData.userName === "") {
+								setErrorMessage("User name cannot be empty!")
 							}
-
-							const response = await fetch(
-								"http://localhost:5151/api/auth/register",
-								{
-									method: "POST",
-									headers: {
-										"Content-Type": "application/json",
-									},
-									body: JSON.stringify({
-										UserName: userData.userName,
-										Password: userData.userPassword,
-									}),
-								}
-							);
-
-							if (response.ok) {
-								setErrorMessage("You're succesfully signed up!");
-								setUserData({...userData, userName: "", userPassword: "", userRepeatPassword: ""});
-							} else if(response.statusText == "Bad Request") {
-								setErrorMessage("User with this user name already exists.");
-								setUserData({...userData, userName: ""});
-								console.log(response.statusText);
+							else if (userData.userPassword !== userData.userRepeatPassword) {
+								setErrorMessage("Passwords aren't the same!");
+							} else if(userData.userPassword.length < 7) {
+								setErrorMessage("Password cannot be shorter than 8!");
 							} else {
-								setErrorMessage("Something went wrong, try again later.");
-								setUserData({...userData, userName: "", userPassword: "", userRepeatPassword: ""});
+								const response = await fetch(
+									"http://localhost:5151/api/auth/register",
+									{
+										method: "POST",
+										headers: {
+											"Content-Type": "application/json",
+										},
+										body: JSON.stringify({
+											UserName: userData.userName,
+											Password: userData.userPassword,
+										}),
+									}
+								);
+
+								if (response.ok) {
+									setErrorMessage("You're succesfully signed up!");
+									setUserData({...userData, userName: "", userPassword: "", userRepeatPassword: ""});
+								} else if(response.statusText == "Bad Request") {
+									setErrorMessage("User with this user name already exists.");
+									setUserData({...userData, userName: ""});
+									console.log(response.statusText);
+								} else {
+									setErrorMessage("Something went wrong, try again later.");
+									setUserData({...userData, userName: "", userPassword: "", userRepeatPassword: ""});
+								}
 							}
 						}}>
 						Sign up
@@ -115,7 +118,8 @@ function RouteComponent() {
 						</button>
 					</Link>
 
-					<p className="text-red-700">{errorMessage}{errorMessage === "You're succesfully signed up!" && <Link to="/logIn"><p className="text-green-500">Log in here</p></Link>}</p>
+					<p className="text-red-700">{errorMessage}</p>
+					{errorMessage === "You're succesfully signed up!" && <Link to="/logIn"><p className="text-green-500">Log in here</p></Link>}
 				</form>
 			</div>
 		</div>,

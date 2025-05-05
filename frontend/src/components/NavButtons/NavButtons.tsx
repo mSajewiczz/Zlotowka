@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { useContext } from "react";
+import { BsPersonFill } from "react-icons/bs";
 
 export default function NavButtons() {
-	const { passedAuthorisation } = useContext(AuthorizationContext);
+	const { passedAuthorisation, userName } = useContext(AuthorizationContext);
 	const { setAuth } = useContext(AuthorizationContext);
 
 	const handleLogOut = () => {
@@ -14,7 +15,9 @@ export default function NavButtons() {
 	return (
 		<>
 			{passedAuthorisation ? (
-				<div className="p-2 flex gap-2">
+				<div className="p-2 flex gap-2 items-center">
+					<p className="flex gap-1 items-center"><BsPersonFill />You're logged as {userName}</p>
+
 					<Link to="/">
 						{" "}
 						<button
