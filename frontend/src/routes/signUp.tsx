@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { BsEyeSlashFill, BsEyeFill  } from "react-icons/bs";
 
 export const Route = createFileRoute("/signUp")({
 	component: RouteComponent,
@@ -14,6 +15,21 @@ function RouteComponent() {
 		userRepeatPassword: "",
 	});
 
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	const handleShowPassword = (e:Event) => {
+		e.preventDefault();
+		if(inputRef.current) {
+			inputRef.current.type = "text";
+		}
+	}
+
+	const handleHidePassword = (e:Event) => {
+		e.preventDefault();
+		if(inputRef.current) {
+			inputRef.current.type = "password";
+		}
+	}
 	return createPortal(
 		<div className="absolute bg-gray-300 w-screen h-screen z-10 top-0 flex flex-col justify-center items-center">
 			<div className="flex flex-col bg-white p-10 gap-5 items-center">
@@ -35,15 +51,19 @@ function RouteComponent() {
 
 					<label htmlFor="" className="flex flex-col gap-1">
 						<p>Your password</p>
-						<input
-							className="border"
-							type="password"
-							placeholder="Password"
-							value={userData.userPassword}
-							onChange={e => {
-								setUserData({ ...userData, userPassword: e.target.value });
-							}}
-						/>
+						<div className="flex items-center">
+							<input
+								className="border"
+								type="password"
+								placeholder="Password"
+								value={userData.userPassword}
+								onChange={e => {
+									setUserData({ ...userData, userPassword: e.target.value });
+								}}
+								ref={inputRef}
+							/>
+							<button onClick={(e) => handleShowPassword(e)}><BsEyeFill/></button>
+						</div>
 					</label>
 
 					<label htmlFor="" className="flex flex-col gap-1">
@@ -67,12 +87,13 @@ function RouteComponent() {
 						onClick={async e => {
 							e.preventDefault();
 
-							if(userData.userName === "") {
-								setErrorMessage("User name cannot be empty!")
-							}
-							else if (userData.userPassword !== userData.userRepeatPassword) {
+							if (userData.userName === "") {
+								setErrorMessage("User name cannot be empty!");
+							} else if (
+								userData.userPassword !== userData.userRepeatPassword
+							) {
 								setErrorMessage("Passwords aren't the same!");
-							} else if(userData.userPassword.length < 7) {
+							} else if (userData.userPassword.length < 7) {
 								setErrorMessage("Password cannot be shorter than 8!");
 							} else {
 								const response = await fetch(
@@ -91,14 +112,24 @@ function RouteComponent() {
 
 								if (response.ok) {
 									setErrorMessage("You're succesfully signed up!");
-									setUserData({...userData, userName: "", userPassword: "", userRepeatPassword: ""});
-								} else if(response.statusText == "Bad Request") {
+									setUserData({
+										...userData,
+										userName: "",
+										userPassword: "",
+										userRepeatPassword: "",
+									});
+								} else if (response.statusText == "Bad Request") {
 									setErrorMessage("User with this user name already exists.");
-									setUserData({...userData, userName: ""});
+									setUserData({ ...userData, userName: "" });
 									console.log(response.statusText);
 								} else {
 									setErrorMessage("Something went wrong, try again later.");
-									setUserData({...userData, userName: "", userPassword: "", userRepeatPassword: ""});
+									setUserData({
+										...userData,
+										userName: "",
+										userPassword: "",
+										userRepeatPassword: "",
+									});
 								}
 							}
 						}}>
@@ -119,7 +150,11 @@ function RouteComponent() {
 					</Link>
 
 					<p className="text-red-700">{errorMessage}</p>
-					{errorMessage === "You're succesfully signed up!" && <Link to="/logIn"><p className="text-green-500">Log in here</p></Link>}
+					{errorMessage === "You're succesfully signed up!" && (
+						<Link to="/logIn">
+							<p className="text-green-500">Log in here</p>
+						</Link>
+					)}
 				</form>
 			</div>
 		</div>,
