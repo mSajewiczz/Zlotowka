@@ -2,9 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useRef, useState, useContext } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
-import Dashboard from "../components/Dashboard/Dashboard";
 import { AuthorizationContext } from "../context/AuthorizationContext";
-
 
 export const Route = createFileRoute("/logIn")({
 	component: RouteComponent,
@@ -14,22 +12,19 @@ function RouteComponent() {
 	const inputRef = useRef(null);
 	const [userData, setUserData] = useState({ userName: "", userPassword: "" });
 	const [message, setMessage] = useState("");
-	const [auth, setAuth] = useState({ passedAuth: false, userName: "" });
-	const authContext = useContext(AuthorizationContext);
+
+	const {setAuth} = useContext(AuthorizationContext);
+
 	const navigate = useNavigate();
 
-
-
-	const focusInput = () => {
-		// inputRef.current.focus();
-		console.log("test");
+	const navigateToDashboard = () => {
+		navigate({ to: "/dashboard" });
 	};
 
 	return createPortal(
 		<div className="absolute bg-gray-300 w-screen h-screen z-10 top-0 flex flex-col justify-center items-center">
 			<div className="flex flex-col bg-white p-10 gap-5 items-center">
 				<h2 className="text-3xl">Log in</h2>
-
 				<form action="" className="flex flex-col gap-1">
 					<label htmlFor="" className="flex flex-col gap-2">
 						<p>Your username</p>
@@ -79,15 +74,10 @@ function RouteComponent() {
 
 							if (response.ok) {
 								setMessage("You're succesfully logged in!");
-								setAuth({ passedAuth: true, userName: userData.userName});
-								
-								<AuthorizationContext.Provider
-									value={{passedAuthorisation: auth.passedAuth, userName: auth.userName}}>
 
-										<Dashboard></Dashboard>
+								setAuth({ passedAuthorisation: true, userName: userData.userName });
 
-										{`${navigate({ to: '/dashboard' })}`};
-								</AuthorizationContext.Provider>;
+								navigateToDashboard();
 							} else {
 								setMessage("Invalid user name or password");
 							}
