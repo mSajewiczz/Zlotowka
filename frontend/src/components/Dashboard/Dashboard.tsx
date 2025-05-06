@@ -19,7 +19,6 @@ export default function Dashboard() {
 							Here you can find all informations of your finance
 						</p>
 					</div>
-
 					<Spends />
 				</div>
 			) : (

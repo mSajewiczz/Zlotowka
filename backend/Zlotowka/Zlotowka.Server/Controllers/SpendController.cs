@@ -51,5 +51,19 @@ namespace Zlotowka.Server.Controllers
 
             return Ok("Your spend has been added.");
         }
+
+        [Authorize]
+        [HttpGet("spends")]
+        public async Task<IActionResult> GetSpend()
+        {
+            var userIdClaim = User.FindFirst("id");
+            if (userIdClaim == null)
+                return Unauthorized("Missing user ID in token.");
+            var userId = int.Parse(userIdClaim.Value);
+            var spends = await _context.Spends.Where(spend => spend.UserId == userId).ToListAsync();
+            
+            
+            return Ok(spends);
+        }
     }
 }
