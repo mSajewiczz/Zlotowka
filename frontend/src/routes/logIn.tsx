@@ -13,6 +13,7 @@ function RouteComponent() {
 	const inputRef = useRef(null);
 	const [userData, setUserData] = useState({ userName: "", userPassword: "" });
 	const [message, setMessage] = useState("");
+	const [loading, setLoading] = useState({color: "bg-amber-300", text: "Log in"});
 
 	const {setAuth} = useContext(AuthorizationContext);
 
@@ -53,36 +54,43 @@ function RouteComponent() {
 						/>
 					</label>
 					<button
-						className="bg-amber-300 cursor-pointer"
+						className={`${loading.color} cursor-pointer`}
 						onClick={async e => {
 							e.preventDefault();
 							console.log("userName: " + userData.userName);
 							console.log("password: " + userData.userPassword);
 
-							const response = await fetch(
-								"http://localhost:5151/api/auth/login",
-								{
-									method: "POST",
-									headers: {
-										"Content-Type": "application/json",
-									},
-									body: JSON.stringify({
-										UserName: userData.userName,
-										Password: userData.userPassword,
-									}),
+							setLoading({...loading, color: "bg-gray-300", text: "Loading..."});
+
+								const response = await fetch(
+									"http://localhost:5151/api/auth/login",
+									{
+										method: "POST",
+										headers: {
+											"Content-Type": "application/json",
+										},
+										body: JSON.stringify({
+											UserName: userData.userName,
+											Password: userData.userPassword,
+										}),
+									}
+								);
+
+
+							setTimeout(() => {
+								if (response.ok) {
+									setAuth({passedAuthorisation: true, userName: userData.userName});
+									setLoading({...loading, color: "bg-amber-300", text: "Log in"});
+									navigateToDashboard();
+								} else {
+									setLoading({...loading, color: "bg-amber-300", text: "Log in"});
+									setMessage("Invalid user name or password");
 								}
-							);
+							}, 300);
 
-							if (response.ok) {
-								setAuth({passedAuthorisation: true, userName: userData.userName});
-
-								navigateToDashboard();
-							} else {
-								setMessage("Invalid user name or password");
-							}
 							console.log(response);
 						}}>
-						Log in
+						{loading.text}
 					</button>
 					<Link to="/">
 						<button
