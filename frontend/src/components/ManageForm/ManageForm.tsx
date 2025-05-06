@@ -5,9 +5,10 @@ import { useState } from "react";
 interface ManageForm {
 	onClose: () => void;
 	title: string;
+    getMethod: () => void
 }
 
-export default function ManageForm({ onClose, title }: ManageForm) {
+export default function ManageForm({ onClose, title, getMethod }: ManageForm) {
 	const [data, setData] = useState({ title: "", date: "", amount: 0 });
     const [message, setMessage] = useState({text: "", color: "text-green-400"});
 
@@ -77,6 +78,8 @@ export default function ManageForm({ onClose, title }: ManageForm) {
                             setData({...data, date: "", title: "", amount: 0})
                             setMessage({...message, text:"Something went wrong, try again later.", color: "text-red-500"});
                         }
+
+                        getMethod();
 					}}
 					className="bg-amber-500 py-1 px-2 rounded cursor-pointer">
 					Submit

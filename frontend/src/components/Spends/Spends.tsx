@@ -2,19 +2,13 @@ import { useEffect, useState } from "react";
 import ManageForm from "../ManageForm/ManageForm";
 import { FaPlus } from "react-icons/fa6";
 export default function Spends() {
-
 	const [showForm, setShowForm] = useState(false);
-    const [data, setData] = useState({});
-
+	const [data, setData] = useState([]);
+    const [count, setCount] = useState();
 
 	const title = "Spend";
 
-	const handleOpenSpendForm = () => {
-		setShowForm(true);
-	};
-
 	async function getSpends() {
-
 		const response = await fetch("http://localhost:5151/api/spend/spends", {
 			method: "GET",
 			headers: {
@@ -22,20 +16,25 @@ export default function Spends() {
 			},
 		});
 
+		if (response.ok) {
+			const data = await response.json();
+			setData(data);
 
-        if(response.ok) {
-            const data = await response.json();
-            const currData = data.map((element:string) => <li>{element}</li>)
-            setData(currData);
+        
+
+		} else {
+            console.log("sth went wrong");
             
-            // setData(await response.json());
-        } else {
-        }
+		}
 	}
 
+	const handleOpenSpendForm = () => {
+		setShowForm(true);
+	};
+
 	useEffect(() => {
-        // getSpends(); 
-	}, [getSpends, data]);
+		getSpends();
+	}, []);
 
 	return (
 		<div id="spends">
@@ -49,10 +48,24 @@ export default function Spends() {
 				</button>
 			</div>
 
-			<h3>List of your spends</h3>
-            <p></p>
+			<div className="flex flex-col justify-center items-center gap-2">
+				<h3 className="pb-2 text-xl text-amber-700 bg-white py-1 px-2">List of your spends</h3>
+				<ul className="flex flex-col gap-2">
+					{data.length === 0 ? <p className="text-red-800">You have no spends, congratulations!</p> : data.map((spend: any) => (
+						<li key={spend.title}  className="bg-white text-blue-600 py-1 px-2">
+                        {spend.title} - <span className="text-red-500">{spend.amount} zł</span> - {spend.date}
+                   </li>
+					))}
+				</ul>
+                <p>SUM:{count} </p>
+			</div>
+
 			{showForm && (
-				<ManageForm title={title} onClose={() => setShowForm(false)} />
+				<ManageForm
+					title={title}
+					getMethod={getSpends}
+					onClose={() => setShowForm(false)}
+				/>
 			)}
 		</div>
 	);
