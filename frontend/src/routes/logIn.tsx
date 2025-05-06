@@ -81,6 +81,10 @@ function RouteComponent() {
 								if (response.ok) {
 									setAuth({passedAuthorisation: true, userName: userData.userName});
 									setLoading({...loading, color: "bg-amber-300", text: "Log in"});
+
+									localStorage.setItem("passedAuthorisation", `${true}`);
+									localStorage.setItem("userName", `${userData.userName}`);
+
 									navigateToDashboard();
 								} else {
 									setLoading({...loading, color: "bg-amber-300", text: "Log in"});
