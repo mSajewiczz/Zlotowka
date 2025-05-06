@@ -9,19 +9,13 @@ export const AuthorizationContext = createContext({
 const localAuth = localStorage.getItem("passedAuthorisation");
 const  localUserName =  localStorage.getItem("userName");
 
-const localData = () => {
-  console.log(localAuth + " " + localUserName);
-}
-
-
 export function AuthorizationContextProvider({ children }: { children: React.ReactNode }) {
   const [auth, setAuth] = useState({
     passedAuthorisation: localAuth,
     userName: localUserName,
   });
 
-  localData();
-//localstorage is to do 
+//ALL DATA YOU HAVE TO STORE IN LOCAL STORAGE - FROM DB AND SO ON 
 
   return (
     <AuthorizationContext.Provider value={{ ...auth, setAuth }}>
