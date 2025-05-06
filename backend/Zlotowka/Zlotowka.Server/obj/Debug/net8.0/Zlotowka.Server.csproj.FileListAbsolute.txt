@@ -168,3 +168,4 @@ C:\Users\mikol\Desktop\my_code_base\projects\Zlotowka\backend\Zlotowka\Zlotowka.
 C:\Users\mikol\Desktop\my_code_base\projects\Zlotowka\backend\Zlotowka\Zlotowka.Server\obj\Debug\net8.0\Zlotowka.Server.pdb
 C:\Users\mikol\Desktop\my_code_base\projects\Zlotowka\backend\Zlotowka\Zlotowka.Server\obj\Debug\net8.0\Zlotowka.Server.genruntimeconfig.cache
 C:\Users\mikol\Desktop\my_code_base\projects\Zlotowka\backend\Zlotowka\Zlotowka.Server\obj\Debug\net8.0\ref\Zlotowka.Server.dll
+C:\Users\mikol\Desktop\my_code_base\projects\Zlotowka\backend\Zlotowka\Zlotowka.Server\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
