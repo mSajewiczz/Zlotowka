@@ -4,6 +4,8 @@ using Zlotowka.Server.Data;
 using Zlotowka.Server.Models;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using RegisterRequest = Zlotowka.Server.Models.RegisterRequest;
 
 namespace Zlotowka.Server.Controllers
 {
@@ -12,6 +14,7 @@ namespace Zlotowka.Server.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly PasswordHasher<User> _passwordHasher = new();
 
         public AuthController(AppDbContext context)
         {
@@ -26,13 +29,11 @@ namespace Zlotowka.Server.Controllers
             {
                 return BadRequest("User with this user name already exists.");
             }
-            
-            var passwordHash = HashPassword(request.Password);
 
             var user = new User
             {
                 UserName = request.UserName,
-                PasswordHash = passwordHash
+                PasswordHash = _passwordHasher.HashPassword(null, request.Password)
             };
 
             _context.Users.Add(user);
@@ -41,12 +42,19 @@ namespace Zlotowka.Server.Controllers
             return Ok("You are successfully registered.");
         }
 
-        private string HashPassword(string password)
+        [HttpPost("login")]
+        public async Task<IActionResult> Register([FromBody] LoginRequest request)
         {
-            using var sha = SHA256.Create();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
+            var user = await _context.Users.FirstOrDefaultAsync(dbUser => dbUser.UserName == request.UserName);
+            if (user == null)
+                return BadRequest("Invalid data.");
+
+            //pull out from db data about users password
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+            if (result == PasswordVerificationResult.Failed)
+                return BadRequest("Invalid data."); 
+
+            return Ok("Logged in successful");
         }
     }
 }
