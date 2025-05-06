@@ -9,9 +9,10 @@ interface ManageForm {
 
 export default function ManageForm({ onClose, title }: ManageForm) {
 	const [data, setData] = useState({ title: "", date: "", amount: 0 });
+    const [message, setMessage] = useState({text: "", color: "text-green-400"});
 
 	return createPortal(
-		<div className="absolute top-1/2 left-1/2  bg-red-700 p-10 flex flex-col gap-2 items-center">
+		<div className="absolute top-1/2 left-1/2  bg-gray-700 p-10 flex flex-col gap-2 items-center">
 			<div className="flex justify-between">
 				<h3 className="text-amber-400 text-2xl">New {title}</h3>
 				<button
@@ -55,7 +56,7 @@ export default function ManageForm({ onClose, title }: ManageForm) {
 				<button
 					onClick={async e => {
 						e.preventDefault();
-						await fetch("http://localhost:5151/api/spend/spends", {
+						const response = await fetch("http://localhost:5151/api/spend/spends", {
 							method: "POST",
 							headers: {
 								"Content-Type": "application/json",
@@ -67,10 +68,20 @@ export default function ManageForm({ onClose, title }: ManageForm) {
 								SpendAmount: data.amount,
 							}),
 						});
+
+
+                        if(response.ok) {
+                            setData({...data, date: "", title: "", amount: 0})
+                            setMessage({...message, text: "Your spend has been added!", color: "text-green-400"});
+                        } else {
+                            setData({...data, date: "", title: "", amount: 0})
+                            setMessage({...message, text:"Something went wrong, try again later.", color: "text-red-500"});
+                        }
 					}}
 					className="bg-amber-500 py-1 px-2 rounded cursor-pointer">
 					Submit
 				</button>
+                <p className={message.color}>{message.text}</p>
 			</form>
 		</div>,
 		document.body
