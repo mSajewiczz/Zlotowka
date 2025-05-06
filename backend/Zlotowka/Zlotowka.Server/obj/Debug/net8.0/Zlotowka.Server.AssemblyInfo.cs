@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Zlotowka.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41609dd345766eeca0aa7fefadb7526da0142f13")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+214d2657ba116bbd3980e780920b90ef69e3831d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Zlotowka.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Zlotowka.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
