@@ -41,6 +41,12 @@ builder.Services.AddAuthentication("Bearer")
 var app = builder.Build();
 app.UseCors("AllowLocalhostDev");
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 
 if (app.Environment.IsDevelopment())
 {
