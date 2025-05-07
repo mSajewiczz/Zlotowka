@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Zlotowka.Server.Data;
 using Zlotowka.Server.Models;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using RegisterRequest = Zlotowka.Server.Models.RegisterRequest;
 
 namespace Zlotowka.Server.Controllers
@@ -13,12 +16,14 @@ namespace Zlotowka.Server.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
+        private IConfiguration _config;
         private readonly AppDbContext _context;
         private readonly PasswordHasher<User> _passwordHasher = new();
 
-        public AuthController(AppDbContext context)
+        public AuthController(AppDbContext context, IConfiguration config)
         {
             _context = context;
+            _config = config; 
         }
 
         [HttpPost("register")]
@@ -54,7 +59,24 @@ namespace Zlotowka.Server.Controllers
             if (result == PasswordVerificationResult.Failed)
                 return BadRequest("Invalid data."); 
 
-            return Ok("Logged in successful");
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("id", user.Id.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwt = tokenHandler.WriteToken(token);
+
+            return Ok(new { token = jwt });
         }
     }
 }

@@ -4,7 +4,6 @@ import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 import { AuthorizationContext } from "../context/AuthorizationContext";
 
-
 export const Route = createFileRoute("/logIn")({
 	component: RouteComponent,
 });
@@ -13,8 +12,12 @@ function RouteComponent() {
 	const inputRef = useRef(null);
 	const [userData, setUserData] = useState({ userName: "", userPassword: "" });
 	const [message, setMessage] = useState("");
+	const [loading, setLoading] = useState({
+		color: "bg-amber-300",
+		text: "Log in",
+	});
 
-	const {setAuth} = useContext(AuthorizationContext);
+	const { setAuth } = useContext(AuthorizationContext);
 
 	const navigate = useNavigate();
 
@@ -53,11 +56,17 @@ function RouteComponent() {
 						/>
 					</label>
 					<button
-						className="bg-amber-300 cursor-pointer"
+						className={`${loading.color} cursor-pointer`}
 						onClick={async e => {
 							e.preventDefault();
 							console.log("userName: " + userData.userName);
 							console.log("password: " + userData.userPassword);
+
+							setLoading({
+								...loading,
+								color: "bg-gray-300",
+								text: "Loading...",
+							});
 
 							const response = await fetch(
 								"http://localhost:5151/api/auth/login",
@@ -74,15 +83,39 @@ function RouteComponent() {
 							);
 
 							if (response.ok) {
-								setAuth({passedAuthorisation: true, userName: userData.userName});
-
-								navigateToDashboard();
-							} else {
-								setMessage("Invalid user name or password");
+								const data = await response.json();
+								localStorage.setItem("token", data.token);
 							}
+
+							setTimeout(() => {
+								if (response.ok) {
+									setAuth({
+										passedAuthorisation: true,
+										userName: userData.userName,
+									});
+									setLoading({
+										...loading,
+										color: "bg-amber-300",
+										text: "Log in",
+									});
+
+									localStorage.setItem("passedAuthorisation", `${true}`);
+									localStorage.setItem("userName", `${userData.userName}`);
+
+									navigateToDashboard();
+								} else {
+									setLoading({
+										...loading,
+										color: "bg-amber-300",
+										text: "Log in",
+									});
+									setMessage("Invalid user name or password");
+								}
+							}, 300);
+
 							console.log(response);
 						}}>
-						Log in
+						{loading.text}
 					</button>
 					<Link to="/">
 						<button
