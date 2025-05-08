@@ -6,7 +6,7 @@ import {ChangeTheme} from "../components/ChangeTheme/ChangeTheme";
 export const Route = createRootRoute({
 	component: () => (
 		<>
-			<div className="flex justify-between">
+			<div className="flex justify-around items-center">
 				<div className=" p-2 flex gap-10 items-center">
 					<p className="bg-amber-400 px-4 py-1">Złotówka</p>
 
@@ -25,14 +25,12 @@ export const Route = createRootRoute({
 				</div>
 
         <NavButtons/>
-		<button onClick = {() => {
-			ChangeTheme();
-		}} className="text-amber-200">Change theme</button>
-				
 			</div>
 
 			<hr />
+			<div className="flex justify-center items-center">
 			<Outlet />
+			</div>
 			<TanStackRouterDevtools />
 		</>
 	),
