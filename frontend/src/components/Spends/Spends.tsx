@@ -5,7 +5,11 @@ import { MdDelete } from "react-icons/md";
 export default function Spends() {
 	const [showForm, setShowForm] = useState(false);
 	const [data, setData] = useState([]);
-    const [count, setCount] = useState(0);
+	const [count, setCount] = useState(0);
+
+	data.map((spend: any) => (
+		spend.date
+	))
 
 	const title = "Spend";
 
@@ -17,19 +21,13 @@ export default function Spends() {
 			},
 		});
 
-
-
 		if (response.ok) {
 			const data = await response.json();
 			setData(data);
-
-        } else {
-            console.log("sth went wrong");
-            
+		} else {
+			console.log("sth went wrong");
 		}
 	}
-
-
 
 	const handleOpenSpendForm = () => {
 		setShowForm(true);
@@ -52,15 +50,35 @@ export default function Spends() {
 			</div>
 
 			<div className="flex flex-col justify-center items-center gap-2">
-				<h3 className="pb-2 text-xl text-amber-700 bg-white py-1 px-2">List of your spends</h3>
+				<div className="flex gap-2">
+					<h3 className="pb-2 text-xl text-amber-700 bg-white py-1 px-2">
+						List of your spends
+					</h3>{" "}
+					<button
+						className="bg-white px-3 cursor-pointer"
+						onClick={handleOpenSpendForm}>
+						<FaPlus />
+					</button>
+				</div>
 				<ul className="flex flex-col gap-2">
-					{data.length === 0 ? <p className="text-red-800">You have no spends, congratulations!</p> : data.map((spend: any) => (
-						<li key={spend.title}  className="bg-white text-blue-600 py-1 px-2 flex gap-2 items-center">
-                        {spend.title} - <span className="text-red-500">{spend.amount} zł</span> - {spend.date} <button className="cursor-pointer"><MdDelete /></button>
-                   </li>
-					))}
+					{data.length === 0 ? (
+						<p className="text-red-800">You have no spends, congratulations!</p>
+					) : (
+						data.map((spend: any) => (
+							<li
+								key={spend.title}
+								className="bg-white text-blue-600 py-1 px-2 flex gap-2 items-center">
+								{spend.title} -{" "}
+								<span className="text-red-500">{spend.amount} zł</span> -{" "}
+								{spend.date}{" "}
+								<button className="cursor-pointer">
+									<MdDelete />
+								</button>
+							</li>
+						))
+					)}
 				</ul>
-                <p>SUM: {count} zł</p>
+				<p>SUM: {count} zł</p>
 			</div>
 
 			{showForm && (
