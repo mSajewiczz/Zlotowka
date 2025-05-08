@@ -9,6 +9,7 @@ interface ManageForm {
 }
 
 export default function ManageForm({ onClose, title, getMethod }: ManageForm) {
+
 	const [data, setData] = useState({ title: "", date: "", amount: 0 });
     const [message, setMessage] = useState({text: "", color: "text-green-400"});
 
