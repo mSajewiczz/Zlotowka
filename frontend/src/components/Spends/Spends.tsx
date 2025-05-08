@@ -12,9 +12,6 @@ export default function Spends() {
 	});
 	const [data, setData] = useState([]);
 	const [count, setCount] = useState(0);
-
-	data.map((spend: any) => spend.date);
-
 	const title = "Spend";
 
 	async function getSpends() {
