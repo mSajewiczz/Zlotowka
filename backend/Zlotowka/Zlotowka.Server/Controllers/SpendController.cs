@@ -73,11 +73,9 @@ namespace Zlotowka.Server.Controllers
             var userIdClaim = User.FindFirst("id");
             if (userIdClaim == null)
                 return Unauthorized("Missing user ID in token.");
-            var userId = int.Parse(userIdClaim.Value); //userId from JWT 
+            var userId = int.Parse(userIdClaim.Value);
             
-            
-            
-            var spends = await _context.Spends.Where(spend => spend.UserId == userId).ToListAsync();
+            var spends = await _context.Spends.Where(spend => spend.Id == spendId && spend.UserId == userId).ToListAsync();
             
             return Ok(spends);
         }

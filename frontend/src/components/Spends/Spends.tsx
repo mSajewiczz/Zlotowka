@@ -66,7 +66,7 @@ export default function Spends() {
 					) : (
 						data.map((spend: any) => (
 							<li
-								key={spend.title}
+								key={spend.id}
 								className="bg-white text-blue-600 py-1 px-2 flex gap-2 items-center">
 								{spend.title} -{" "}
 								<span className="text-red-500">{spend.amount} zł</span> -{" "}
@@ -74,6 +74,32 @@ export default function Spends() {
 								<button className="cursor-pointer">
 									<MdDelete />
 								</button>
+								<button onClick = {async () => {
+
+									const spendId = spend.id;
+									const userId = spend.userId;
+
+									console.log(spendId + ", " + userId);
+
+									const response = await fetch(`http://localhost:5151/api/spend/spends/${spendId}`, {
+										method: "GET",
+										headers: {
+											Authorization: `Bearer ${localStorage.getItem("token")}`,
+										},
+									});
+
+									if(response.ok) {
+										console.log("works!");
+										console.log(response);
+										
+									} else {
+										console.log("sth went wrong");
+									}
+									
+
+									// const spendId = 
+									//userId, spendId
+								}} className="bg-green-500 cursor-pointer">Check details</button>
 							</li>
 						))
 					)}
