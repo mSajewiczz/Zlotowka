@@ -4,12 +4,16 @@ import { FaPlus } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 export default function Spends() {
 	const [showForm, setShowForm] = useState(false);
+	const [showDetails, setShowDetails] = useState({
+		title: "",
+		date: "",
+		amount: 0,
+		state: false,
+	});
 	const [data, setData] = useState([]);
 	const [count, setCount] = useState(0);
 
-	data.map((spend: any) => (
-		spend.date
-	))
+	data.map((spend: any) => spend.date);
 
 	const title = "Spend";
 
@@ -74,32 +78,44 @@ export default function Spends() {
 								<button className="cursor-pointer">
 									<MdDelete />
 								</button>
-								<button onClick = {async () => {
+								<button
+									onClick={async () => {
+										const spendId = spend.id;
+										const userId = spend.userId;
 
-									const spendId = spend.id;
-									const userId = spend.userId;
+										console.log(spendId + ", " + userId);
 
-									console.log(spendId + ", " + userId);
+										const response = await fetch(
+											`http://localhost:5151/api/spend/spends/${spendId}`,
+											{
+												method: "GET",
+												headers: {
+													Authorization: `Bearer ${localStorage.getItem("token")}`,
+												},
+											}
+										);
 
-									const response = await fetch(`http://localhost:5151/api/spend/spends/${spendId}`, {
-										method: "GET",
-										headers: {
-											Authorization: `Bearer ${localStorage.getItem("token")}`,
-										},
-									});
+										if (response.ok) {
+											console.log("works!");
+											console.log(response);
+										} else {
+											console.log("sth went wrong");
+										}
 
-									if(response.ok) {
-										console.log("works!");
-										console.log(response);
-										
-									} else {
-										console.log("sth went wrong");
-									}
-									
+										setShowDetails({
+											...showDetails,
+											title: spend.title,
+											date: spend.date,
+											amount: spend.amount,
+											state: true,
+										});
 
-									// const spendId = 
-									//userId, spendId
-								}} className="bg-green-500 cursor-pointer">Check details</button>
+										// const spendId =
+										//userId, spendId
+									}}
+									className="bg-green-500 cursor-pointer">
+									Check details
+								</button>
 							</li>
 						))
 					)}
@@ -113,6 +129,22 @@ export default function Spends() {
 					getMethod={getSpends}
 					onClose={() => setShowForm(false)}
 				/>
+			)}
+
+			{showDetails.state && (
+				<div className="absolute top-1/2 left-1/2  bg-gray-700 p-10 flex flex-col gap-2 items-center text-white">
+					<h3>Your details of spend</h3>{" "}
+					<button
+						className="cursor-pointer"
+						onClick={() => setShowDetails({ ...showDetails, state: false })}>
+						Close
+					</button>
+					<ul>
+						<h4>{showDetails.title}</h4>
+						<p>{showDetails.amount} zł,</p>
+						<p>{showDetails.date}</p>
+					</ul>
+				</div>
 			)}
 		</div>
 	);
