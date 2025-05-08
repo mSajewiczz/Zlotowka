@@ -15,9 +15,9 @@ export default function NavButtons() {
 	return (
 		<>
 			{passedAuthorisation ? (
-				<div className="p-2 flex gap-2 items-center">
+				<div className="p-2 flex gap-2 items-center sm:text-xl">
 					<p className="flex gap-1 items-center"><BsPersonFill />You're logged as {userName}</p>
-
+					<Link to="/dashboard/dashboard"><button className="cursor-pointer bg-amber-300 px-4 py-1">Go to dashboard</button></Link>
 					<Link to="/">
 						{" "}
 						<button
@@ -28,7 +28,7 @@ export default function NavButtons() {
 					</Link>
 				</div>
 			) : (
-				<div className="p-2 flex gap-2">
+				<div className="p-2 flex gap-2 sm:text-xl">
 					<Link to="/logIn">
 						<button className="cursor-pointer bg-amber-300 px-4 py-1">
 							Log in

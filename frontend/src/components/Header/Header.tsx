@@ -3,8 +3,8 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function Header() {
 	return (
-		<div className="flex flex-col p-5 justify-center items-start mb-50 text-black ">
-			<div className="flex items-start flex-col justify-center gap-8 sm:gap-6">
+		<div className="flex flex-col p-5 justify-center items-center mb-50 mt-30  text-black ">
+			<div className="flex items-start flex-col justify-center gap-8 sm:gap-7">
 				<p className="text-sm sm:text-lg">
 					INTELLIGENT, EFFECTIVE MONEY MANAGEMENT.
 				</p>
