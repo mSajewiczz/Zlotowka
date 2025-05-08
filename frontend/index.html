@@ -1,14 +1,33 @@
 <!doctype html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>"Zlotowka" - take care of your money!</title>
-    <link rel="stylesheet" href="/frontend/src/index.css">
-  </head>
-  <body class="relative">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>"Zlotowka" - take care of your money!</title>
+  <link rel="stylesheet" href="/frontend/src/index.css">
+</head>
+
+<body class="relative bg-[var(--light-background)] dark:bg-[var(--dark-background)]">
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+<script>
+
+  // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+  document.documentElement.classList.toggle(
+    "dark",
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
+  );
+  // Whenever the user explicitly chooses light mode
+  localStorage.theme = "light";
+  // Whenever the user explicitly chooses dark mode
+  localStorage.theme = "dark";
+  // Whenever the user explicitly chooses to respect the OS preference
+  localStorage.removeItem("theme");
+
+</script>
+
 </html>

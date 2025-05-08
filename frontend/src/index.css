@@ -1,21 +1,10 @@
 @import "tailwindcss";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 :root {
-	--light-background: #9ca7ac;
-	--white: #fff;
-	--grey: #e3e5e4;
-	--black: #191c22;
+	--light-background: #e9e9e9;
+  --dark-background: #080808;
+	--light-text: #fff;
+  --dark-text: #080808;
+  --main-color: #FFD700;
 }
-
-body {
-	background-color: var(--light-background);
-}
-
-.gradient {
-    color: var(--white);
-    background: linear-gradient(
-      90deg,
-      rgba(85, 91, 99, 1) 0%,
-      rgba(17, 21, 24, 1) 100%
-    );
-  }

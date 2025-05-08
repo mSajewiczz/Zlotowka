@@ -22,7 +22,7 @@ function RouteComponent() {
 	const navigate = useNavigate();
 
 	const navigateToDashboard = () => {
-		navigate({ to: "/dashboard" });
+		navigate({ to: "/dashboard/dashboard" });
 	};
 
 	return createPortal(
