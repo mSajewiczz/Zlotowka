@@ -5,10 +5,11 @@ import { useState } from "react";
 interface ManageForm {
 	onClose: () => void;
 	title: string;
-    getMethod: () => void
+    getMethod: () => void;
+	directory: string
 }
 
-export default function ManageForm({ onClose, title, getMethod }: ManageForm) {
+export default function ManageForm({ onClose, title, getMethod, directory }: ManageForm) {
 
 	const [data, setData] = useState({ title: "", date: "", amount: 0 });
     const [message, setMessage] = useState({text: "", color: "text-green-400"});
@@ -58,23 +59,23 @@ export default function ManageForm({ onClose, title, getMethod }: ManageForm) {
 				<button
 					onClick={async e => {
 						e.preventDefault();
-						const response = await fetch("http://localhost:5151/api/spend/spends", {
+						const response = await fetch(`http://localhost:5151/api/${directory}`, {
 							method: "POST",
 							headers: {
 								"Content-Type": "application/json",
                                 Authorization: `Bearer ${localStorage.getItem("token")}`
 							},
 							body: JSON.stringify({
+								//HERE 
 								SpendTitle: data.title,
 								SpendDate: data.date,
 								SpendAmount: data.amount,
 							}),
 						});
 
-
                         if(response.ok) {
                             setData({...data, date: "", title: "", amount: 0})
-                            setMessage({...message, text: "Your spend has been added!", color: "text-green-400"});
+                            setMessage({...message, text: `Your ${title} has been added!`, color: "text-green-400"});
                         } else {
                             setData({...data, date: "", title: "", amount: 0})
                             setMessage({...message, text:"Something went wrong, try again later.", color: "text-red-500"});

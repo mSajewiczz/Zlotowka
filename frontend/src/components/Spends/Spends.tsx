@@ -13,7 +13,7 @@ export default function Spends() {
 	});
 	const [data, setData] = useState([]);
 	const [count, setCount] = useState(0);
-	const title = "Spend";
+	const title = "spend";
 
 	async function getSpends() {
 		const response = await fetch("http://localhost:5151/api/spend/spends", {
@@ -120,6 +120,7 @@ export default function Spends() {
 					title={title}
 					getMethod={getSpends}
 					onClose={() => setShowForm(false)}
+					directory = "spend/spends"
 				/>
 			)}
 
