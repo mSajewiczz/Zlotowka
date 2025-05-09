@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ManageForm from "../ManageForm/ManageForm";
 import { FaPlus } from "react-icons/fa6";
+import { Link } from "@tanstack/react-router";
 import { MdDelete } from "react-icons/md";
 export default function Spends() {
 	const [showForm, setShowForm] = useState(false);
@@ -48,6 +49,9 @@ export default function Spends() {
 					<FaPlus />
 					Add new spend
 				</button>
+				<Link to="/dashboard/overview">
+					<button className="bg-red-500">Go back to dashboard</button>
+				</Link>
 			</div>
 
 			<div className="flex flex-col justify-center items-center gap-2">
@@ -78,9 +82,6 @@ export default function Spends() {
 								<button
 									onClick={async () => {
 										const spendId = spend.id;
-										const userId = spend.userId;
-
-										console.log(spendId + ", " + userId);
 
 										const response = await fetch(
 											`http://localhost:5151/api/spend/spends/${spendId}`,
@@ -93,22 +94,16 @@ export default function Spends() {
 										);
 
 										if (response.ok) {
-											console.log("works!");
-											console.log(response);
+											setShowDetails({
+												...showDetails,
+												title: spend.title,
+												date: spend.date,
+												amount: spend.amount,
+												state: true,
+											});
 										} else {
 											console.log("sth went wrong");
 										}
-
-										setShowDetails({
-											...showDetails,
-											title: spend.title,
-											date: spend.date,
-											amount: spend.amount,
-											state: true,
-										});
-
-										// const spendId =
-										//userId, spendId
 									}}
 									className="bg-green-500 cursor-pointer">
 									Check details

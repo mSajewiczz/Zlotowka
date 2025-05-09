@@ -13,7 +13,7 @@ function RouteComponent() {
 
  useEffect(() => {
   if(passedAuthorisation) {
-    setInfo({...info, path: "/dashboard", text: "Go to dashboard and try it yourself!"});
+    setInfo({...info, path: "/dashboard/overview", text: "Go to dashboard and try it yourself!"});
   }
  },[passedAuthorisation])
 

@@ -15,7 +15,9 @@ import { Route as SignUpImport } from './routes/signUp'
 import { Route as LogInImport } from './routes/logIn'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
-import { Route as DashboardDashboardImport } from './routes/dashboard/dashboard'
+import { Route as DashboardSpendsImport } from './routes/dashboard/spends'
+import { Route as DashboardOverviewImport } from './routes/dashboard/overview'
+import { Route as DashboardIncomesImport } from './routes/dashboard/incomes'
 
 // Create/Update Routes
 
@@ -43,9 +45,21 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardDashboardRoute = DashboardDashboardImport.update({
-  id: '/dashboard/dashboard',
-  path: '/dashboard/dashboard',
+const DashboardSpendsRoute = DashboardSpendsImport.update({
+  id: '/dashboard/spends',
+  path: '/dashboard/spends',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardOverviewRoute = DashboardOverviewImport.update({
+  id: '/dashboard/overview',
+  path: '/dashboard/overview',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardIncomesRoute = DashboardIncomesImport.update({
+  id: '/dashboard/incomes',
+  path: '/dashboard/incomes',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -81,11 +95,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignUpImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/dashboard': {
-      id: '/dashboard/dashboard'
-      path: '/dashboard/dashboard'
-      fullPath: '/dashboard/dashboard'
-      preLoaderRoute: typeof DashboardDashboardImport
+    '/dashboard/incomes': {
+      id: '/dashboard/incomes'
+      path: '/dashboard/incomes'
+      fullPath: '/dashboard/incomes'
+      preLoaderRoute: typeof DashboardIncomesImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/overview': {
+      id: '/dashboard/overview'
+      path: '/dashboard/overview'
+      fullPath: '/dashboard/overview'
+      preLoaderRoute: typeof DashboardOverviewImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/spends': {
+      id: '/dashboard/spends'
+      path: '/dashboard/spends'
+      fullPath: '/dashboard/spends'
+      preLoaderRoute: typeof DashboardSpendsImport
       parentRoute: typeof rootRoute
     }
   }
@@ -98,7 +126,9 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/logIn': typeof LogInRoute
   '/signUp': typeof SignUpRoute
-  '/dashboard/dashboard': typeof DashboardDashboardRoute
+  '/dashboard/incomes': typeof DashboardIncomesRoute
+  '/dashboard/overview': typeof DashboardOverviewRoute
+  '/dashboard/spends': typeof DashboardSpendsRoute
 }
 
 export interface FileRoutesByTo {
@@ -106,7 +136,9 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/logIn': typeof LogInRoute
   '/signUp': typeof SignUpRoute
-  '/dashboard/dashboard': typeof DashboardDashboardRoute
+  '/dashboard/incomes': typeof DashboardIncomesRoute
+  '/dashboard/overview': typeof DashboardOverviewRoute
+  '/dashboard/spends': typeof DashboardSpendsRoute
 }
 
 export interface FileRoutesById {
@@ -115,21 +147,39 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/logIn': typeof LogInRoute
   '/signUp': typeof SignUpRoute
-  '/dashboard/dashboard': typeof DashboardDashboardRoute
+  '/dashboard/incomes': typeof DashboardIncomesRoute
+  '/dashboard/overview': typeof DashboardOverviewRoute
+  '/dashboard/spends': typeof DashboardSpendsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/logIn' | '/signUp' | '/dashboard/dashboard'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/logIn'
+    | '/signUp'
+    | '/dashboard/incomes'
+    | '/dashboard/overview'
+    | '/dashboard/spends'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/logIn' | '/signUp' | '/dashboard/dashboard'
+  to:
+    | '/'
+    | '/about'
+    | '/logIn'
+    | '/signUp'
+    | '/dashboard/incomes'
+    | '/dashboard/overview'
+    | '/dashboard/spends'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/logIn'
     | '/signUp'
-    | '/dashboard/dashboard'
+    | '/dashboard/incomes'
+    | '/dashboard/overview'
+    | '/dashboard/spends'
   fileRoutesById: FileRoutesById
 }
 
@@ -138,7 +188,9 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   LogInRoute: typeof LogInRoute
   SignUpRoute: typeof SignUpRoute
-  DashboardDashboardRoute: typeof DashboardDashboardRoute
+  DashboardIncomesRoute: typeof DashboardIncomesRoute
+  DashboardOverviewRoute: typeof DashboardOverviewRoute
+  DashboardSpendsRoute: typeof DashboardSpendsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -146,7 +198,9 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   LogInRoute: LogInRoute,
   SignUpRoute: SignUpRoute,
-  DashboardDashboardRoute: DashboardDashboardRoute,
+  DashboardIncomesRoute: DashboardIncomesRoute,
+  DashboardOverviewRoute: DashboardOverviewRoute,
+  DashboardSpendsRoute: DashboardSpendsRoute,
 }
 
 export const routeTree = rootRoute
@@ -163,7 +217,9 @@ export const routeTree = rootRoute
         "/about",
         "/logIn",
         "/signUp",
-        "/dashboard/dashboard"
+        "/dashboard/incomes",
+        "/dashboard/overview",
+        "/dashboard/spends"
       ]
     },
     "/": {
@@ -178,8 +234,14 @@ export const routeTree = rootRoute
     "/signUp": {
       "filePath": "signUp.tsx"
     },
-    "/dashboard/dashboard": {
-      "filePath": "dashboard/dashboard.tsx"
+    "/dashboard/incomes": {
+      "filePath": "dashboard/incomes.tsx"
+    },
+    "/dashboard/overview": {
+      "filePath": "dashboard/overview.tsx"
+    },
+    "/dashboard/spends": {
+      "filePath": "dashboard/spends.tsx"
     }
   }
 }

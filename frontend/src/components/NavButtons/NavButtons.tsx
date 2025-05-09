@@ -25,7 +25,7 @@ export default function NavButtons() {
 							Log out
 						</button>
 					</Link>
-					<Link to="/dashboard/dashboard"><button className="cursor-pointer bg-amber-300 px-4 py-1">Go to dashboard</button></Link>
+					<Link to="/dashboard/overview"><button className="cursor-pointer bg-amber-300 px-4 py-1">Go to dashboard</button></Link>
 					
 				</div>
 			) : (
