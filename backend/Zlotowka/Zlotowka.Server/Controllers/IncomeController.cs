@@ -28,8 +28,8 @@ namespace Zlotowka.Server.Controllers
                                 return Unauthorized("Missing user ID in token.");
                         var userId = int.Parse(userIdClaim.Value);
             
-                        var titleExists = await _context.Incomes.AnyAsync(income => income.Title == request.IncomeTitle && income.UserId == userId);
-                        var dateExists = await _context.Incomes.AnyAsync(income => income.Date == request.IncomeDate);
+                        var titleExists = await _context.Incomes.AnyAsync(income => income.Title == request.Title && income.UserId == userId);
+                        var dateExists = await _context.Incomes.AnyAsync(income => income.Date == request.Date);
                         
                         if (titleExists && dateExists)
                         { 
@@ -38,9 +38,9 @@ namespace Zlotowka.Server.Controllers
 
                         var income = new Income
                         {
-                                Title = request.IncomeTitle,
-                                Amount = request.IncomeAmount,
-                                Date = request.IncomeDate,
+                                Title = request.Title,
+                                Amount = request.Amount,
+                                Date = request.Date,
                                 UserId = userId
                         };
             

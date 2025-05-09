@@ -29,8 +29,8 @@ namespace Zlotowka.Server.Controllers
                 return Unauthorized("Missing user ID in token.");
             var userId = int.Parse(userIdClaim.Value);
             
-            var titleExists = await _context.Spends.AnyAsync(spend => spend.Title == request.SpendTitle && spend.UserId == userId);
-            var dateExists = await _context.Spends.AnyAsync(spend => spend.Date == request.SpendDate);
+            var titleExists = await _context.Spends.AnyAsync(spend => spend.Title == request.Title && spend.UserId == userId);
+            var dateExists = await _context.Spends.AnyAsync(spend => spend.Date == request.Date);
 
             
             if (titleExists && dateExists)
@@ -40,9 +40,9 @@ namespace Zlotowka.Server.Controllers
 
             var spend = new Spend
             {
-                Title = request.SpendTitle,
-                Amount = request.SpendAmount,
-                Date = request.SpendDate,
+                Title = request.Title,
+                Amount = request.Amount,
+                Date = request.Date,
                 UserId = userId
             };
             

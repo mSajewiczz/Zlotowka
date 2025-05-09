@@ -66,10 +66,9 @@ export default function ManageForm({ onClose, title, getMethod, directory }: Man
                                 Authorization: `Bearer ${localStorage.getItem("token")}`
 							},
 							body: JSON.stringify({
-								//HERE 
-								SpendTitle: data.title,
-								SpendDate: data.date,
-								SpendAmount: data.amount,
+								Title: data.title,
+								Date: data.date,
+								Amount: data.amount,
 							}),
 						});
 

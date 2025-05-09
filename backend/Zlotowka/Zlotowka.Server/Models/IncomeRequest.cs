@@ -2,7 +2,7 @@
 
 public class IncomeRequest
 {
-    public string IncomeTitle { get; set; }
-    public decimal IncomeAmount { get; set; }
-    public DateTime IncomeDate { get; set; }
+    public string Title { get; set; }
+    public decimal Amount { get; set; }
+    public DateTime Date { get; set; }
 }

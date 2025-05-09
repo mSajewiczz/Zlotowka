@@ -14,19 +14,19 @@ function RouteComponent() {
 
   async function getSpends() {
     //THAT WILL BE FOR GETTING DATA FROM SERVER 
-		const response = await fetch("http://localhost:5151/api/spend/spends", {
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${localStorage.getItem("token")}`,
-			},
-		});
+		// const response = await fetch("http://localhost:5151/api/spend/spends", {
+		// 	method: "GET",
+		// 	headers: {
+		// 		Authorization: `Bearer ${localStorage.getItem("token")}`,
+		// 	},
+		// });
 
-		if (response.ok) {
-			const data = await response.json();
-			setData(data);
-		} else {
-			console.log("sth went wrong");
-		}
+		// if (response.ok) {
+		// 	const data = await response.json();
+		// 	setData(data);
+		// } else {
+		// 	console.log("sth went wrong");
+		// }
 	}
 
 
@@ -51,6 +51,8 @@ function RouteComponent() {
                 directory = "income/incomes"
               />
             )}
+
+            {/*FOR TODAY: DISPLAY DATA FROM INCOMES TABEL IN DB */}
 		</div>
 	);
 }
