@@ -75,9 +75,29 @@ namespace Zlotowka.Server.Controllers
                 return Unauthorized("Missing user ID in token.");
             var userId = int.Parse(userIdClaim.Value);
             
-            var spends = await _context.Spends.Where(spend => spend.Id == spendId && spend.UserId == userId).ToListAsync();
-            
-            return Ok(spends);
+            var spend = await _context.Spends.Where(spend => spend.Id == spendId && spend.UserId == userId).ToListAsync();
+            return Ok(spend);
         }
+        
+        [Authorize]
+        [HttpDelete("spends/{spendId}")]
+        public async Task<IActionResult> DeleteSpend(int spendId)
+        {
+            var userIdClaim = User.FindFirst("id");
+            if (userIdClaim == null)
+                return Unauthorized("Missing user ID in token.");
+            var userId = int.Parse(userIdClaim.Value);
+            
+            var spendRemove = _context.Spends.SingleOrDefault(spend => spend.Id == spendId && spend.UserId == userId);
+
+            if (spendRemove != null)
+            {
+                _context.Spends.Remove(spendRemove);
+                await _context.SaveChangesAsync();
+            }
+                
+            return Ok($"Spend {spendId} has been deleted.");
+        }
+        
     }
 }

@@ -75,5 +75,25 @@ namespace Zlotowka.Server.Controllers
                         return Ok(income);
                 }
                 
+                [Authorize]
+                [HttpDelete("incomes/{incomeId}")]
+                public async Task<IActionResult> DeleteIncome(int incomeId)
+                {
+                        var userIdClaim = User.FindFirst("id");
+                        if (userIdClaim == null)
+                                return Unauthorized("Missing user ID in token.");
+                        var userId = int.Parse(userIdClaim.Value);
+            
+                        var incomeRemove = _context.Incomes.SingleOrDefault(income => income.Id == incomeId && income.UserId == userId);
+
+                        if (incomeRemove != null)
+                        {
+                                _context.Incomes.Remove(incomeRemove);
+                                await _context.SaveChangesAsync();
+                        }
+                
+                        return Ok($"Income {incomeId} has been deleted.");
+                }
+                
         }
 }

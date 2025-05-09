@@ -67,7 +67,25 @@ export default function DataRender({
 									<p>{element.date}</p>
 								</div>
 								<div className="flex flex-row-reverse gap-1">
-									<button className="cursor-pointer px-2 py-1">
+									<button className="cursor-pointer px-2 py-1" onClick = {async () => {
+                                        const elementId = element.id;
+                                        const response = await fetch(
+                                            `http://localhost:5151/api/${directory}/${elementId}`,
+                                            {
+                                                method: "DELETE",
+                                                headers: {
+                                                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                                                },
+                                            }
+                                        );
+
+                                        if (response.ok) {
+                                            getMethod();
+                                        } else {
+                                            console.log("sth went wrong");
+                                        }
+
+                                    }}>
 										<MdDelete />
 									</button>
 									<button
