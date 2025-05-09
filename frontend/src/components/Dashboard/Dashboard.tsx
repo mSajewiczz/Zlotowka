@@ -24,8 +24,6 @@ export default function Dashboard() {
 						<button
 							className="bg-red-500 cursor-pointer"
 							onClick={() => {
-								console.log("navigate");
-
 								navigate({ to: "/dashboard/spends" });
 							}}>
 							Show your spends
@@ -34,8 +32,6 @@ export default function Dashboard() {
 						<button
 							className="bg-red-500 cursor-pointer"
 							onClick={() => {
-								console.log("navigate");
-
 								navigate({ to: "/dashboard/incomes" });
 							}}>
 							Show your incomes
