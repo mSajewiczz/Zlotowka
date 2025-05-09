@@ -2,17 +2,10 @@ import { useEffect, useState } from "react";
 import ManageForm from "../ManageForm/ManageForm";
 import { FaPlus } from "react-icons/fa6";
 import { Link } from "@tanstack/react-router";
-import { MdDelete } from "react-icons/md";
+import DataRender from "../DataRender/DataRender";
 export default function Spends() {
 	const [showForm, setShowForm] = useState(false);
-	const [showDetails, setShowDetails] = useState({
-		title: "",
-		date: "",
-		amount: 0,
-		state: false,
-	});
 	const [data, setData] = useState([]);
-	const [count, setCount] = useState(0);
 	const title = "spend";
 
 	async function getSpends() {
@@ -65,54 +58,7 @@ export default function Spends() {
 						<FaPlus />
 					</button>
 				</div>
-				<ul className="flex flex-col gap-2">
-					{data.length === 0 ? (
-						<p className="text-red-800">You have no spends, congratulations!</p>
-					) : (
-						data.map((spend: any) => (
-							<li
-								key={spend.id}
-								className="bg-white text-blue-600 py-1 px-2 flex gap-2 items-center">
-								{spend.title} -{" "}
-								<span className="text-red-500">{spend.amount} zł</span> -{" "}
-								{spend.date}{" "}
-								<button className="cursor-pointer">
-									<MdDelete />
-								</button>
-								<button
-									onClick={async () => {
-										const spendId = spend.id;
-
-										const response = await fetch(
-											`http://localhost:5151/api/spend/spends/${spendId}`,
-											{
-												method: "GET",
-												headers: {
-													Authorization: `Bearer ${localStorage.getItem("token")}`,
-												},
-											}
-										);
-
-										if (response.ok) {
-											setShowDetails({
-												...showDetails,
-												title: spend.title,
-												date: spend.date,
-												amount: spend.amount,
-												state: true,
-											});
-										} else {
-											console.log("sth went wrong");
-										}
-									}}
-									className="bg-green-500 cursor-pointer">
-									Check details
-								</button>
-							</li>
-						))
-					)}
-				</ul>
-				<p>SUM: {count} zł</p>
+				<DataRender title="spend" data={data} directory="spend/spends" />
 			</div>
 
 			{showForm && (
@@ -120,24 +66,8 @@ export default function Spends() {
 					title={title}
 					getMethod={getSpends}
 					onClose={() => setShowForm(false)}
-					directory = "spend/spends"
+					directory="spend/spends"
 				/>
-			)}
-
-			{showDetails.state && (
-				<div className="absolute top-1/2 left-1/2  bg-gray-700 p-10 flex flex-col gap-2 items-center text-white">
-					<h3>Your details of spend</h3>{" "}
-					<button
-						className="cursor-pointer"
-						onClick={() => setShowDetails({ ...showDetails, state: false })}>
-						Close
-					</button>
-					<ul>
-						<h4>{showDetails.title}</h4>
-						<p>{showDetails.amount} zł,</p>
-						<p>{showDetails.date}</p>
-					</ul>
-				</div>
 			)}
 		</div>
 	);

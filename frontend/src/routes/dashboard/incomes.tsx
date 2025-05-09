@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import ManageForm from "../../components/ManageForm/ManageForm";
 import { MdDelete } from "react-icons/md";
+import DataRender from "../../components/DataRender/DataRender";
 
 export const Route = createFileRoute("/dashboard/incomes")({
 	component: RouteComponent
@@ -32,7 +33,7 @@ function RouteComponent() {
 
   useEffect(() => {
     getSpends();
-  }, [getSpends])
+  }, [])
 
 
 	return (
@@ -48,53 +49,7 @@ function RouteComponent() {
 				</Link>
 			</div>
 
-      <ul className="flex flex-col gap-2 items-center">
-                {data.length === 0 ? (
-                  <p className="text-red-800">You have no spends, congratulations!</p>
-                ) : (
-                  data.map((spend: any) => (
-                    <li
-                      key={spend.id}
-                      className="bg-white text-blue-600 py-1 px-2 flex gap-2 items-center">
-                      {spend.title} -{" "}
-                      <span className="text-red-500">{spend.amount} zł</span> -{" "}
-                      {spend.date}{" "}
-                      <button className="cursor-pointer">
-                        <MdDelete />
-                      </button>
-                      <button
-                        onClick={async () => {
-                          // const spendId = spend.id;
-      
-                          // const response = await fetch(
-                          //   `http://localhost:5151/api/spend/spends/${spendId}`,
-                          //   {
-                          //     method: "GET",
-                          //     headers: {
-                          //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-                          //     },
-                          //   }
-                          // );
-      
-                          // if (response.ok) {
-                          //   setShowDetails({
-                          //     ...showDetails,
-                          //     title: spend.title,
-                          //     date: spend.date,
-                          //     amount: spend.amount,
-                          //     state: true,
-                          //   });
-                          // } else {
-                          //   console.log("sth went wrong");
-                          // }
-                        }}
-                        className="bg-green-500 cursor-pointer">
-                        Check details
-                      </button>
-                    </li>
-                  ))
-                )}
-              </ul>
+      <DataRender title="income" data={data} directory="income/incomes"/>
 
 
       {showForm && (
