@@ -1,7 +1,6 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import NavButtons from "../components/NavButtons/NavButtons";
-import {ChangeTheme} from "../components/ChangeTheme/ChangeTheme";
 
 export const Route = createRootRoute({
 	component: () => (

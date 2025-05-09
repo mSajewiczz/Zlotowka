@@ -63,5 +63,17 @@ namespace Zlotowka.Server.Controllers
                         return Ok(incomes);
                 }
                 
+                [Authorize]
+                [HttpGet("incomes/{incomeId}")]
+                public async Task<IActionResult> GetIncome(int incomeId)
+                {
+                        var userIdClaim = User.FindFirst("id");
+                        if (userIdClaim == null)
+                                return Unauthorized("Missing user ID in token.");
+                        var userId = int.Parse(userIdClaim.Value);
+                        var income = await _context.Incomes.Where(income => income.Id == incomeId && income.UserId == userId).ToListAsync();
+                        return Ok(income);
+                }
+                
         }
 }

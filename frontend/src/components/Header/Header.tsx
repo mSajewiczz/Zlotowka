@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function Header() {
 	return (

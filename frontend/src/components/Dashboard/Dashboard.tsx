@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { Link, useNavigate } from "@tanstack/react-router";
-import Spends from "../Spends/Spends";
 
 export default function Dashboard() {
 	const { passedAuthorisation, userName } = useContext(AuthorizationContext);
