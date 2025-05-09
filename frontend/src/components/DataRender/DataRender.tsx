@@ -28,19 +28,21 @@ export default function DataRender({
 
 	return (
 		<div className="flex flex-col ">
-			<h2 className="text-4xl">Your {title}s</h2>
-			<div className="flex gap-2">
-				<button
-					onClick={() => setShowForm(true)}
-					className="px-2 py-1 flex items-center gap-2 cursor-pointer bg-red-500">
-					<FaPlus />
-					Add new {title}
-				</button>
-				<Link to="/dashboard/overview">
-					<button className="px-2 py-1 cursor-pointer bg-red-500">
-						Go back to dashboard
+			<div className="flex flex-col gap-2 p-2">
+				<h2 className="text-4xl">Your {title}s</h2>
+				<div className="flex gap-2">
+					<button
+						onClick={() => setShowForm(true)}
+						className="px-2 py-1 flex items-center gap-2 cursor-pointer bg-red-500">
+						<FaPlus />
+						Add new {title}
 					</button>
-				</Link>
+					<Link to="/dashboard/overview">
+						<button className="px-2 py-1 cursor-pointer bg-red-500">
+							Go back to dashboard
+						</button>
+					</Link>
+				</div>
 			</div>
 
 			<div className="flex flex-col items-center">
@@ -57,7 +59,11 @@ export default function DataRender({
 								className="bg-white text-blue-600 py-1 px-2 flex flex-col  gap-2 items-center w-full justify-between">
 								<h2 className="text-xl">{element.title}</h2>
 								<div className="flex gap-2">
-									<span className="text-red-500">{element.amount} zł</span>{" "}
+									{title === "spend" ? (
+										<span className="text-red-500">-{element.amount} zł</span>
+									) : (
+										<span className="text-green-500">+{element.amount} zł</span>
+									)}
 									<p>{element.date}</p>
 								</div>
 								<div className="flex flex-row-reverse gap-1">
