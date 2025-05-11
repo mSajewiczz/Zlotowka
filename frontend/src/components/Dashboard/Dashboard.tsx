@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { FaMinus, FaPlus  } from "react-icons/fa6";
+import { FaMinus, FaPlus } from "react-icons/fa6";
 
 export default function Dashboard() {
 	const { passedAuthorisation, userName } = useContext(AuthorizationContext);
 	const navigate = useNavigate();
+
+	
 
 	return (
 		<>
@@ -26,7 +28,7 @@ export default function Dashboard() {
 							onClick={() => {
 								navigate({ to: "/dashboard/spends" });
 							}}>
-							<FaMinus/>
+							<FaMinus />
 							Show your spends
 						</button>
 
@@ -38,6 +40,11 @@ export default function Dashboard() {
 							<FaPlus />
 							Show your incomes
 						</button>
+					</div>
+
+					<div>
+						<h2 className="text-xl">Charts</h2>
+							<canvas id="myChart"></canvas>
 					</div>
 				</div>
 			) : (

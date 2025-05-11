@@ -1,4 +1,6 @@
 import { createContext, useState } from 'react';
+import { DataContext } from './DataContext';
+
 
 export const AuthorizationContext = createContext({
   passedAuthorisation: false,
@@ -15,7 +17,6 @@ export function AuthorizationContextProvider({ children }: { children: React.Rea
     userName: localUserName,
   });
 
-//ALL DATA YOU HAVE TO STORE IN LOCAL STORAGE - FROM DB AND SO ON 
 
   return (
     <AuthorizationContext.Provider value={{ ...auth, setAuth }}>
