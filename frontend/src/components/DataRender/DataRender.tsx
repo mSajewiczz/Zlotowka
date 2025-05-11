@@ -3,6 +3,7 @@ import { MdDelete } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { Link } from "@tanstack/react-router";
 import ManageForm from "../ManageForm/ManageForm";
+import ActionConfirmation from "../ActionConfirmation/ActionConfirmation";
 
 interface DataRender {
 	data: never[];
@@ -17,6 +18,8 @@ export default function DataRender({
 	directory,
 	getMethod,
 }: DataRender) {
+
+
 	const [showDetails, setShowDetails] = useState({
 		title: "",
 		date: "",
@@ -24,7 +27,19 @@ export default function DataRender({
 		state: false,
 	});
 
+	const convertDate = (dateVal: string) => {
+		let date: any = [];
+
+		for (let i = 0; i < 10; i++) {
+			date[i] = dateVal[i];
+		}
+        
+		return `${date[8]}${date[9]}.${date[5]}${date[6]}.${date[0]}${date[1]}${date[2]}${date[3]}`;
+	};
+
+	const [element, setElement] = useState([]);
 	const [showForm, setShowForm] = useState(false);
+	const [showActionConf, setShowActionConf] = useState(false);
 
 	return (
 		<div className="flex flex-col ">
@@ -64,28 +79,15 @@ export default function DataRender({
 									) : (
 										<span className="text-green-500">+{element.amount} zł</span>
 									)}
-									<p>{element.date}</p>
+									<p>{convertDate(element.date)}</p>
 								</div>
 								<div className="flex flex-row-reverse gap-1">
-									<button className="cursor-pointer px-2 py-1" onClick = {async () => {
-                                        const elementId = element.id;
-                                        const response = await fetch(
-                                            `http://localhost:5151/api/${directory}/${elementId}`,
-                                            {
-                                                method: "DELETE",
-                                                headers: {
-                                                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                                                },
-                                            }
-                                        );
-
-                                        if (response.ok) {
-                                            getMethod();
-                                        } else {
-                                            console.log("sth went wrong");
-                                        }
-
-                                    }}>
+									<button
+										className="cursor-pointer px-2 py-1"
+										onClick={() => {
+											setShowActionConf(true);
+											setElement(element);
+										}}>
 										<MdDelete />
 									</button>
 									<button
@@ -144,6 +146,18 @@ export default function DataRender({
 					getMethod={getMethod}
 					onClose={() => setShowForm(false)}
 					directory={directory}
+				/>
+			)}
+
+			{showActionConf && (
+				<ActionConfirmation
+					type={title}
+					name={element.title}
+					element={element}
+					getMethod={getMethod}
+					directory={directory}
+					showActionConfFunc={setShowActionConf}
+					showActionConfValue={showActionConf}
 				/>
 			)}
 		</div>

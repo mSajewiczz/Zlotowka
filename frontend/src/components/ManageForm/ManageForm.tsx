@@ -96,6 +96,7 @@ export default function ManageForm({
 						}
 
 						getMethod();
+						onClose();
 					}}
 					className="bg-amber-500 py-1 px-2 rounded cursor-pointer">
 					Submit
